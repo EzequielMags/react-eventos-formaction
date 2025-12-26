@@ -59,18 +59,29 @@ function App() {
         <img src="/logo.png" alt="" />
       </header>
       <Banner />
-      <FormularioDeEvento temas={temas} aoSubmeter={adicionarEvento
-      }/>
-      {temas.map(function (item) {
+      <FormularioDeEvento temas={temas} aoSubmeter={adicionarEvento}/>
+      <section className='container'>
+      {temas.map(function (tema) {
+        if (!eventos.some((evento) => {
+          return evento.tema.id == tema.id
+        })) {
+          return null
+        }
         return (
-          <section key={item.id}>
-            <Tema tema={item} />
-            {eventos.map((evento, index) => {
-              return <CardEvento evento={evento} key={index}/>
-            })}
+          <section key={tema.id}>
+            <Tema tema={tema} />
+            <div className='container_eventos'>
+              {eventos.filter((evento) => {
+                  return  evento.tema.id == tema.id 
+              })
+                .map((evento, index) => {
+                return <CardEvento evento={evento} key={index}/>
+              })}
+            </div>
           </section>
         )
       })}
+      </section>
 
       {/* <section>
         <Tema tema={temas[1]} />
